@@ -9,7 +9,16 @@ return {
     config = function()
       require("nvim-surround").setup({})
     end,
-  }
+  },
+  -- BQN
+  {
+    "mlochbaum/BQN", 
+    ft = "bqn",
+    config = function(plugin)
+      vim.opt.rtp:append(plugin.dir .. "/editors/vim")
+    end
+  },
+  {"calebowens/nvim-bqn", ft = "bqn"},
   -- You can also add new plugins here as well:
   -- Add plugins, the lazy syntax
   -- "andweeb/presence.nvim",

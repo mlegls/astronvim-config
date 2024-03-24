@@ -50,8 +50,27 @@ return {
     },
     -- enable servers that you already have installed without mason
     servers = {
+      "bqnlsp"
       -- "pyright"
     },
+    config = {
+      bqnlsp = function()
+        return {
+          cmd = {"bqnlsp"},
+          cmd_env = {},
+          filetypes = {"bqn"},
+          root_dir = function ()
+            return "~/.config/nvim/lua/deps/bqnlsp"
+          end,
+          docs = {
+            description = "BQN Language Server",
+            default_config = {
+              root_dir = "~/.config/nvim/lua/deps/bqnlsp",
+            },
+          },
+        }
+      end
+    }
   },
 
   -- Configure require("lazy").setup() options
@@ -69,7 +88,23 @@ return {
   -- augroups/autocommands and custom filetypes also this just pure lua so
   -- anything that doesn't fit in the normal config locations above can go here
   polish = function()
+    vim.filetype.plugin = true
     -- Set up custom filetypes
+    vim.filetype.add({
+      extension = {
+        bqn = "bqn",
+      },
+    })
+    local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+    parser_config.bqn = {
+      install_info = {
+        url = "~/.config/nvim/lua/deps/tree-sitter-bqn/",
+        files = { "src/parser.c" },
+        generate_requires_npm = false,
+        requires_generate_from_grammar = false,
+      },
+      filetype = "bqn",
+    }
     -- vim.filetype.add {
     --   extension = {
     --     foo = "fooscript",
